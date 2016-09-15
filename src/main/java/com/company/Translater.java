@@ -40,15 +40,22 @@ public class Translater {
 
         try {
             this.uri = new URL(String.format(api,this.text));
-            this.connection = (HttpURLConnection)uri.openConnection();
+            this.connection = (HttpURLConnection)uri.openConnection(); //bağlantıyı açıyor
 
+            //gelen cevabı işliyor
             InputStream inputStream = connection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
             StringBuilder response = new StringBuilder();
             String line;
+
             while ((line = reader.readLine()) != null) {
+                //gelen json içerisinden text verisini alıyor
                 JSONObject jsonObject = new JSONObject(line);
-                System.out.println(jsonObject.getJSONArray("text").get(0));
+                String ceviri = jsonObject.getJSONArray("text").get(0).toString();
+
+                //popup oluşturarak kullanıcıya çeviriyi gösteriyor
+                Popup popup = new Popup(ceviri);
             }
 
         } catch (IOException e) {
