@@ -60,7 +60,6 @@ public class KeyboardListener implements NativeKeyListener {
     public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
         if(NativeKeyEvent.getKeyText(nativeKeyEvent.getKeyCode()) == "Left Meta"){
             isCtrl = false;
-            System.out.println("Left Meta çıktı");
         }
     }
 
