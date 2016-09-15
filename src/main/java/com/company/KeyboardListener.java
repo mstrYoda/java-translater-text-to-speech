@@ -14,8 +14,10 @@ import java.io.IOException;
  */
 public class KeyboardListener implements NativeKeyListener {
 
+    //ctrl basılı mı kontrolü
     boolean isCtrl = false;
 
+    //ceviri yapan class
     Translater translater;
 
     public KeyboardListener(Translater t){
@@ -24,12 +26,13 @@ public class KeyboardListener implements NativeKeyListener {
 
     public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
 
+        //basılan tuş ctrl ise kontrol et
         if(NativeKeyEvent.getKeyText(nativeKeyEvent.getKeyCode()) == "Left Meta"){
             isCtrl = true;
         }else{
-
-            if(NativeKeyEvent.getKeyText(nativeKeyEvent.getKeyCode()) == "C"){
-
+            //basılan tuş ctrl değilse C tuşuna mı basıldı kontrol et
+            if(NativeKeyEvent.getKeyText(nativeKeyEvent.getKeyCode()) == "C" && isCtrl == true){
+                //kopyalanan yazıyı clipboarddan al
                 Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
                 Transferable t = cb.getContents(null);
 
@@ -38,7 +41,7 @@ public class KeyboardListener implements NativeKeyListener {
                     try {
                         Object o = t.getTransferData( DataFlavor.stringFlavor );
                         String data = (String)t.getTransferData( DataFlavor.stringFlavor );
-
+                        //copyalanan yazıyı çevir
                         this.translater.setText(data);
                         this.translater.translate();
                     } catch (UnsupportedFlavorException e) {
@@ -57,6 +60,7 @@ public class KeyboardListener implements NativeKeyListener {
     public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
         if(NativeKeyEvent.getKeyText(nativeKeyEvent.getKeyCode()) == "Left Meta"){
             isCtrl = false;
+            System.out.println("Left Meta çıktı");
         }
     }
 
